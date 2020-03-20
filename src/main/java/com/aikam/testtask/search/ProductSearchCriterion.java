@@ -1,7 +1,7 @@
 package com.aikam.testtask.search;
 
 public class ProductSearchCriterion implements SearchCriterion {
-    private static final String functionName = "customer_product_search";
+    private static final String functionName = "customers_product_search";
 
     private String productName;
     private int minTimes;

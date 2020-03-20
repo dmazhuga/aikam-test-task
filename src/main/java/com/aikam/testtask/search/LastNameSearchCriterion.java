@@ -1,7 +1,7 @@
 package com.aikam.testtask.search;
 
 public class LastNameSearchCriterion implements SearchCriterion {
-    private static final String functionName = "customer_last_name_search";
+    private static final String functionName = "customers_last_name_search";
 
     private String lastName;
 

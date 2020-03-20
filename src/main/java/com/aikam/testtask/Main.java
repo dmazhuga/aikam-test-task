@@ -17,6 +17,8 @@ public class Main {
                 if (args[0].equals("search")) {
                     SearchOperation searchOperation = new SearchOperation();
                     output = searchOperation.execute(input);
+
+                    FileUtility.writeString(args[2], output);
                 } else if (args[0].equals("stat")) {
 
                 } else

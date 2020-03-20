@@ -39,7 +39,67 @@ class SearchJSONParser {
         return criteriaList;
     }
 
-    String generate() {
-        return "{\n}";
+    String generate(List<SuccessfulSearch> searches) {
+        JSONObject jsonRoot = new JSONObject();
+
+        jsonRoot.put("type", "search");
+
+        JSONArray jsonSearches = new JSONArray();
+        for (SuccessfulSearch search : searches) {
+            JSONObject jsonSearch = new JSONObject();
+
+            SearchCriterion criterion = search.getCriterion();
+            List<Customer> searchResult = search.getResult();
+
+            JSONObject jsonCriterion = new JSONObject();
+            JSONArray jsonCustomers = new JSONArray();
+
+            if (criterion instanceof LastNameSearchCriterion) {
+                LastNameSearchCriterion lnCriterion = (LastNameSearchCriterion) criterion;
+
+                jsonCriterion.put("lastName", lnCriterion.getLastName());
+            } else if (criterion instanceof ProductSearchCriterion) {
+                ProductSearchCriterion prCriterion = (ProductSearchCriterion) criterion;
+
+                jsonCriterion.put("productName", prCriterion.getProductName());
+                jsonCriterion.put("minTimes", prCriterion.getMinTimes());
+            } else if (criterion instanceof IntervalSearchCriterion) {
+                IntervalSearchCriterion inCriterion = (IntervalSearchCriterion) criterion;
+
+                jsonCriterion.put("minExpenses", inCriterion.getMinExpenses());
+                jsonCriterion.put("maxExpenses", inCriterion.getMaxExpenses());
+            } else if (criterion instanceof  BadCustomersSearchCriterion) {
+                BadCustomersSearchCriterion badCriterion = (BadCustomersSearchCriterion) criterion;
+
+                jsonCriterion.put("badCustomer", badCriterion.getCount());
+            }
+
+            for (Customer customer : searchResult) {
+                JSONObject jsonCustomer = new JSONObject();
+
+                jsonCustomer.put("lastName", customer.getLastName());
+                jsonCustomer.put("firstName", customer.getFirstName());
+
+                jsonCustomers.put(jsonCustomer);
+            }
+
+            jsonSearch.put("criteria", jsonCriterion);
+            jsonSearch.put("results", jsonCustomers);
+
+            jsonSearches.put(jsonSearch);
+        }
+
+        jsonRoot.put("results", jsonSearches);
+
+        return jsonRoot.toString(1);
+    }
+
+    String generateError(String message) {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("type", "error");
+        jsonObject.put("message", message);
+
+        return jsonObject.toString();
     }
 }

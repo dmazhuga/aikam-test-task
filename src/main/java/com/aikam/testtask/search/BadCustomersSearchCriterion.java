@@ -1,7 +1,7 @@
 package com.aikam.testtask.search;
 
 public class BadCustomersSearchCriterion implements SearchCriterion {
-    private static final String functionName = "customer_bad_search";
+    private static final String functionName = "customers_bad_search";
 
     private int count;
 

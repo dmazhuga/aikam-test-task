@@ -1,5 +1,7 @@
 package com.aikam.testtask.search;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchOperation {
@@ -9,11 +11,17 @@ public class SearchOperation {
 
         List<SearchCriterion> criteriaList = JSONParser.parse(input);
 
-        for (SearchCriterion criterion : criteriaList) {
-
-            List<Customer> customers = DBController.getCustomersList(criterion);
+        List<SuccessfulSearch> searches = new ArrayList<>();
+        try {
+            for (SearchCriterion criterion : criteriaList) {
+                List<Customer> customers = DBController.getCustomersList(criterion);
+                searches.add(new SuccessfulSearch(criterion, customers));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return JSONParser.generateError("Произошла ошибка в базе данных");
         }
 
-        return "";
+        return JSONParser.generate(searches);
     }
 }
