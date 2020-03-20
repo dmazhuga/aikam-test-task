@@ -1,6 +1,8 @@
 package com.aikam.testtask.search;
 
 public class IntervalSearchCriterion implements SearchCriterion {
+    private static final String functionName = "customer_interval_search";
+
     private int minExpenses;
     private int maxExpenses;
 
@@ -15,5 +17,10 @@ public class IntervalSearchCriterion implements SearchCriterion {
 
     public int getMaxExpenses() {
         return maxExpenses;
+    }
+
+    @Override
+    public String getQuery() {
+        return "SELECT * FROM " + functionName + "(" + minExpenses + "\', " + maxExpenses + ")";
     }
 }

@@ -1,6 +1,8 @@
 package com.aikam.testtask.search;
 
 public class BadCustomersSearchCriterion implements SearchCriterion {
+    private static final String functionName = "customer_bad_search";
+
     private int count;
 
     public BadCustomersSearchCriterion(int count) {
@@ -9,5 +11,10 @@ public class BadCustomersSearchCriterion implements SearchCriterion {
 
     public int getCount() {
         return count;
+    }
+
+    @Override
+    public String getQuery() {
+        return "SELECT * FROM " + functionName + "(" + count + ")";
     }
 }

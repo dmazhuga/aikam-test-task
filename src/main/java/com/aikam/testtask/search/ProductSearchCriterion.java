@@ -1,6 +1,8 @@
 package com.aikam.testtask.search;
 
 public class ProductSearchCriterion implements SearchCriterion {
+    private static final String functionName = "customer_product_search";
+
     private String productName;
     private int minTimes;
 
@@ -15,5 +17,10 @@ public class ProductSearchCriterion implements SearchCriterion {
 
     public int getMinTimes() {
         return minTimes;
+    }
+
+    @Override
+    public String getQuery() {
+        return "SELECT * FROM " + functionName + "(\'" + productName + "\', " + minTimes + ")";
     }
 }

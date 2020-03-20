@@ -5,8 +5,8 @@ import com.aikam.testtask.search.SearchOperation;
 import java.io.*;
 
 public class Main {
-    private static String usageMessage = "Использование: <операция> <входной файл> <выходной файл>\nОперации: search, stat";
-    private static String errorMessage = "Произошла ошибка: ";
+    private static final String usageMessage = "Использование: <операция> <входной файл> <выходной файл>\nОперации: search, stat";
+    private static final String errorMessage = "Произошла ошибка: ";
 
     public static void main(String[] args) {
         if (args.length == 3) {
