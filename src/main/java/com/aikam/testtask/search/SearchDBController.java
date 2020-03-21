@@ -1,6 +1,6 @@
 package com.aikam.testtask.search;
 
-import com.aikam.testtask.stat.DBUtility;
+import com.aikam.testtask.DBUtility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
