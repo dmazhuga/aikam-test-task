@@ -20,7 +20,7 @@ public class StatInterval {
     }
 
     public int totalDays() {
-        long millisDifference = startDate.getTime() - endDate.getTime();
+        long millisDifference = endDate.getTime() - startDate.getTime();
         long daysDifference = millisDifference / (24 * 60 * 60 * 1000);
 
         return (int) daysDifference;
