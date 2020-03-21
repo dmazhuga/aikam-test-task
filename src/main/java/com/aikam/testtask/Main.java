@@ -1,6 +1,7 @@
 package com.aikam.testtask;
 
 import com.aikam.testtask.search.SearchOperation;
+import com.aikam.testtask.stat.StatOperation;
 
 import java.io.*;
 
@@ -20,7 +21,10 @@ public class Main {
 
                     FileUtility.writeString(args[2], output);
                 } else if (args[0].equals("stat")) {
+                    StatOperation statOperation = new StatOperation();
+                    output = statOperation.execute(input);
 
+                    FileUtility.writeString(args[2], output);
                 } else
                     System.out.println(usageMessage);
             } catch (FileNotFoundException e) {

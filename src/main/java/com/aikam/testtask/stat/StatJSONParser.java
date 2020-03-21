@@ -2,8 +2,7 @@ package com.aikam.testtask.stat;
 
 import org.json.JSONObject;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.sql.Date;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -14,14 +13,13 @@ public class StatJSONParser {
         String stringStartDate = jsonObject.getString("startDate");
         String stringEndDate = jsonObject.getString("endDate");
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate startDate = LocalDate.parse(stringStartDate, dateFormat);
-        LocalDate endDate = LocalDate.parse(stringEndDate, dateFormat);
+        Date startDate = Date.valueOf(stringStartDate);
+        Date endDate = Date.valueOf(stringEndDate);
 
         return new StatInterval(startDate, endDate);
     }
 
-    String generate(StatInterval interval, List<StatCustomer> customerList) {
+    String generate(StatInterval interval, List<StatCustomer> customerList, int totalExpenses, int averageExpenses) {
         return "";
     }
 
@@ -31,6 +29,6 @@ public class StatJSONParser {
         jsonObject.put("type", "error");
         jsonObject.put("message", message);
 
-        return jsonObject.toString();
+        return jsonObject.toString(1);
     }
 }

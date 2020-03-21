@@ -100,6 +100,6 @@ class SearchJSONParser {
         jsonObject.put("type", "error");
         jsonObject.put("message", message);
 
-        return jsonObject.toString();
+        return jsonObject.toString(1);
     }
 }

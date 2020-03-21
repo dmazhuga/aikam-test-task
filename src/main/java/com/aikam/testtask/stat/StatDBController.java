@@ -2,11 +2,7 @@ package com.aikam.testtask.stat;
 
 import com.aikam.testtask.DBUtility;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +30,11 @@ public class StatDBController {
     public List<StatPurchase> getCustomerExpenses (StatCustomer customer, StatInterval interval) throws SQLException {
         ArrayList<StatPurchase> purchases = new ArrayList<>();
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String stringStartDate = interval.getStartDate().format(dateTimeFormatter);
-        String stringEndDate = interval.getEndDate().format(dateTimeFormatter);
-
         try (Connection connection = DBUtility.connect();
              PreparedStatement statement = connection.prepareStatement(getCustomerExpensesQuery)) {
 
-            statement.setString(1, stringStartDate);
-            statement.setString(2, stringEndDate);
+            statement.setDate(1, interval.getStartDate());
+            statement.setDate(2, interval.getEndDate());
             statement.setInt(3, customer.getId());
 
             ResultSet resultSet = statement.executeQuery();
@@ -67,18 +59,16 @@ public class StatDBController {
     private int executeExpensesQuery(String query, StatInterval interval, String columnName) throws SQLException {
         int returnInt;
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String stringStartDate = interval.getStartDate().format(dateTimeFormatter);
-        String stringEndDate = interval.getEndDate().format(dateTimeFormatter);
-
         try (Connection connection = DBUtility.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, stringStartDate);
-            statement.setString(2, stringEndDate);
+            statement.setDate(1, interval.getStartDate());
+            statement.setDate(2, interval.getEndDate());
 
             ResultSet resultSet = statement.executeQuery();
-            returnInt = resultSet.getInt("total_expenses");
+            resultSet.next();
+
+            returnInt = resultSet.getInt(columnName);
         }
 
         return returnInt;

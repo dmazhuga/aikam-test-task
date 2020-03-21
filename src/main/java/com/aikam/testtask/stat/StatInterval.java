@@ -1,26 +1,28 @@
 package com.aikam.testtask.stat;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.sql.Date;
 
 public class StatInterval {
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
 
-    public StatInterval(LocalDate startDate, LocalDate endDate) {
+    public StatInterval(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     public int totalDays() {
-        return (int) ChronoUnit.DAYS.between(startDate, endDate);
+        long millisDifference = startDate.getTime() - endDate.getTime();
+        long daysDifference = millisDifference / (24 * 60 * 60 * 1000);
+
+        return (int) daysDifference;
     }
 }
