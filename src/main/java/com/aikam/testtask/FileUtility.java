@@ -14,6 +14,7 @@ public class FileUtility {
     public static void writeString(String filePath, String string) throws IOException {
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath))) {
             outputStream.write(string.getBytes(Charset.forName("UTF-8")));
+            outputStream.flush();
         }
     }
 }

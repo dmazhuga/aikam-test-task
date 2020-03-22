@@ -50,13 +50,4 @@ public class StatJSONParser {
 
         return root.toString(1);
     }
-
-    String generateError(String message) {
-        JSONObject jsonObject = new JSONObject();
-
-        jsonObject.put("type", "error");
-        jsonObject.put("message", message);
-
-        return jsonObject.toString(1);
-    }
 }

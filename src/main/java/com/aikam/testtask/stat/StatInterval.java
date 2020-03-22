@@ -23,6 +23,7 @@ public class StatInterval {
         long millisDifference = endDate.getTime() - startDate.getTime();
         long daysDifference = millisDifference / (24 * 60 * 60 * 1000);
 
-        return (int) daysDifference;
+        // на единицу больше, так как обе деты включительно
+        return (int) daysDifference + 1;
     }
 }

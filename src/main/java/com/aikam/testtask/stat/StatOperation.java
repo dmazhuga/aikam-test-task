@@ -1,13 +1,15 @@
 package com.aikam.testtask.stat;
 
+import com.aikam.testtask.JSONUtility;
+
 import java.sql.SQLException;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class StatOperation {
     public String execute(String input) {
-        StatJSONParser statJSONParser = new StatJSONParser();
-        StatDBController statDBController = new StatDBController();
+        StatJSONParser JSONParser = new StatJSONParser();
+        StatDBController DBController = new StatDBController();
 
         StatInterval statInterval;
         List<StatCustomer> customers;
@@ -15,24 +17,24 @@ public class StatOperation {
         int averageExpenses;
 
         try {
-            statInterval = statJSONParser.parse(input);
+            statInterval = JSONParser.parse(input);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
-            return statJSONParser.generateError("Неправильный формат даты");
+            return JSONUtility.generateError("Неправильный формат даты");
         }
         try {
-            totalExpenses = statDBController.getTotalExpenses(statInterval);
-            averageExpenses = statDBController.getAverageExpenses(statInterval);
-            customers = statDBController.getCustomersList();
+            totalExpenses = DBController.getTotalExpenses(statInterval);
+            averageExpenses = DBController.getAverageExpenses(statInterval);
+            customers = DBController.getCustomersList();
 
             for (StatCustomer customer : customers) {
-                customer.setPurchases(statDBController.getCustomerExpenses(customer, statInterval));
+                customer.setPurchases(DBController.getCustomerExpenses(customer, statInterval));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return statJSONParser.generateError("Произошла ошибка в базе данных");
+            return JSONUtility.generateError("Произошла ошибка в базе данных");
         }
 
-        return statJSONParser.generate(statInterval, customers, totalExpenses, averageExpenses);
+        return JSONParser.generate(statInterval, customers, totalExpenses, averageExpenses);
     }
 }
