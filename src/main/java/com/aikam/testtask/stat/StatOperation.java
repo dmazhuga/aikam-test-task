@@ -1,5 +1,6 @@
 package com.aikam.testtask.stat;
 
+import com.aikam.testtask.DBConnector;
 import com.aikam.testtask.TestTaskException;
 import org.json.JSONException;
 
@@ -9,9 +10,9 @@ import java.util.List;
 public class StatOperation {
     private static final String dateFormatErrorMessage = "Неправильный формат даты";
 
-    public String execute(String input) throws TestTaskException, JSONException, SQLException {
+    public String execute(String input, DBConnector dbConnector) throws TestTaskException, JSONException, SQLException {
         StatJSONParser JSONParser = new StatJSONParser();
-        StatDBController DBController = new StatDBController();
+        StatDBController DBController = new StatDBController(dbConnector);
 
         StatInterval statInterval;
         List<StatCustomer> customers;

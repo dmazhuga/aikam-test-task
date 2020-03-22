@@ -1,5 +1,6 @@
 package com.aikam.testtask.search;
 
+import com.aikam.testtask.DBConnector;
 import com.aikam.testtask.TestTaskException;
 import org.json.JSONException;
 
@@ -8,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchOperation {
-    public String execute(String input) throws TestTaskException, JSONException, SQLException {
+    public String execute(String input, DBConnector dbConnector) throws TestTaskException, JSONException, SQLException {
         SearchJSONParser JSONParser = new SearchJSONParser();
-        SearchDBController DBController = new SearchDBController();
+        SearchDBController DBController = new SearchDBController(dbConnector);
 
         List<SearchCriterion> criteriaList = JSONParser.parse(input);
         List<SuccessfulSearch> searches = new ArrayList<>();

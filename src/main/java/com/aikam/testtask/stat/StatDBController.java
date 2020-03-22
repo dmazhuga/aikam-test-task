@@ -1,6 +1,6 @@
 package com.aikam.testtask.stat;
 
-import com.aikam.testtask.DBUtility;
+import com.aikam.testtask.DBConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,10 +12,16 @@ public class StatDBController {
     private static final String getAverageExpensesQuery = "SELECT * FROM average_expenses(?, ?)";
     private static final String getCustomerExpensesQuery = "SELECT * FROM customers_product_stat(?, ?, ?)";
 
+    private DBConnector dbConnector;
+
+    public StatDBController(DBConnector dbConnector) {
+        this.dbConnector = dbConnector;
+    }
+
     public List<StatCustomer> getCustomersList() throws SQLException {
         ArrayList<StatCustomer> customers = new ArrayList<>();
 
-        try (Connection connection = DBUtility.connect();
+        try (Connection connection = dbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(getCustomersQuery)) {
 
             ResultSet resultSet = statement.executeQuery();
@@ -30,7 +36,7 @@ public class StatDBController {
     public List<StatPurchase> getCustomerExpenses (StatCustomer customer, StatInterval interval) throws SQLException {
         ArrayList<StatPurchase> purchases = new ArrayList<>();
 
-        try (Connection connection = DBUtility.connect();
+        try (Connection connection = dbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(getCustomerExpensesQuery)) {
 
             statement.setDate(1, interval.getStartDate());
@@ -59,7 +65,7 @@ public class StatDBController {
     private int executeExpensesQuery(String query, StatInterval interval, String columnName) throws SQLException {
         int returnInt;
 
-        try (Connection connection = DBUtility.connect();
+        try (Connection connection = dbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setDate(1, interval.getStartDate());

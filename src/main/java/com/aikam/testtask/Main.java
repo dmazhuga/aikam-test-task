@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class Main {
     private static final String usageMessage = "Использование: <операция> <входной файл> <выходной файл>\nОперации: search, stat";
+    private static final String propertiesErrorMessage = "Ошибка при чтении конфигурационного файла db.properties";
     private static final String outputErrorMessage = "Ошибка при записи в выходной файл";
     private static final String inputErrorMessage = "Ошибка при чтении входного файла";
     private static final String operationErrorMessage = "Неверный тип операции";
@@ -23,15 +24,23 @@ public class Main {
 
             String input, output;
 
+            DBConnector dbConnector;
+            try {
+                dbConnector = new DBConnector();
+            } catch (IOException e) {
+                System.out.println(propertiesErrorMessage);
+                return;
+            }
+
             try {
                 input = FileUtility.readString(inputFilePath);
 
                 if (operation.equals("search")) {
                     SearchOperation searchOperation = new SearchOperation();
-                    output = searchOperation.execute(input);
+                    output = searchOperation.execute(input, dbConnector);
                 } else if (operation.equals("stat")) {
                     StatOperation statOperation = new StatOperation();
-                    output = statOperation.execute(input);
+                    output = statOperation.execute(input, dbConnector);
                 } else {
                     System.out.println(usageMessage);
                     output = JSONUtility.generateError(operationErrorMessage);
