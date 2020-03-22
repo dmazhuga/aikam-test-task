@@ -1,5 +1,6 @@
 package com.aikam.testtask.stat;
 
+import com.aikam.testtask.TestTaskException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,6 +8,8 @@ import java.sql.Date;
 import java.util.List;
 
 public class StatJSONParser {
+    private static final String intervalErrorMessage = "Неправильно задан интервал";
+
     public StatInterval parse(String input) {
         JSONObject jsonObject = new JSONObject(input);
 
@@ -16,7 +19,12 @@ public class StatJSONParser {
         Date startDate = Date.valueOf(stringStartDate);
         Date endDate = Date.valueOf(stringEndDate);
 
-        return new StatInterval(startDate, endDate);
+        StatInterval interval = new StatInterval(startDate, endDate);
+
+        if (interval.totalDays() < 1)
+            throw new TestTaskException(intervalErrorMessage);
+
+        return interval;
     }
 
     String generate(StatInterval interval, List<StatCustomer> customerList, int totalExpenses, int averageExpenses) {

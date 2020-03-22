@@ -1,5 +1,6 @@
 package com.aikam.testtask.search;
 
+import com.aikam.testtask.TestTaskException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SearchJSONParser {
+    private static final String unknownCriterionMessage = "Неверный тип критерия";
+
     List<SearchCriterion> parse(String input) {
         ArrayList<SearchCriterion> criteriaList = new ArrayList<>();
 
@@ -34,7 +37,7 @@ class SearchJSONParser {
 
                 criteriaList.add(new BadCustomersSearchCriterion(badCustomers));
             } else {
-                throw new RuntimeException("Неожиданный элемент");
+                throw new TestTaskException(unknownCriterionMessage);
             }
         }
 
