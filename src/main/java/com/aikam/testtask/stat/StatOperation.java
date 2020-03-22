@@ -1,12 +1,16 @@
 package com.aikam.testtask.stat;
 
 import com.aikam.testtask.JSONUtility;
+import org.json.JSONException;
 
 import java.sql.SQLException;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class StatOperation {
+    private static final String DBErrorMessage = "Произошла ошибка в базе данных";
+    private static final String dateFormatErrorMessage = "Неправильный формат даты";
+    private static final String JSONErrorMessage = "Неправильный синтаксис входного фала";
+
     public String execute(String input) {
         StatJSONParser JSONParser = new StatJSONParser();
         StatDBController DBController = new StatDBController();
@@ -18,9 +22,10 @@ public class StatOperation {
 
         try {
             statInterval = JSONParser.parse(input);
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-            return JSONUtility.generateError("Неправильный формат даты");
+        } catch (IllegalArgumentException e) {
+            return JSONUtility.generateError(dateFormatErrorMessage);
+        } catch (JSONException e) {
+            return JSONUtility.generateError(JSONErrorMessage);
         }
         try {
             totalExpenses = DBController.getTotalExpenses(statInterval);
@@ -31,8 +36,7 @@ public class StatOperation {
                 customer.setPurchases(DBController.getCustomerExpenses(customer, statInterval));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return JSONUtility.generateError("Произошла ошибка в базе данных");
+            return JSONUtility.generateError(DBErrorMessage);
         }
 
         return JSONParser.generate(statInterval, customers, totalExpenses, averageExpenses);

@@ -4,11 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class StatJSONParser {
-    public StatInterval parse(String input) throws DateTimeParseException {
+    public StatInterval parse(String input) {
         JSONObject jsonObject = new JSONObject(input);
 
         String stringStartDate = jsonObject.getString("startDate");
