@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.aikam.testtask</groupId>
-    <artifactId>junior-test-task</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>aikam-test-task</artifactId>
+    <version>1.0</version>
 
     <properties>
         <project.java.version>1.8</project.java.version>
