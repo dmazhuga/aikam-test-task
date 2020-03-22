@@ -13,7 +13,7 @@ public class DBConnector {
     public DBConnector() throws IOException {
         Properties properties = new Properties();
 
-        try (InputStream inputStream = this.getClass().getResourceAsStream("db.properties")) {
+        try (InputStream inputStream = this.getClass().getResourceAsStream("/db.properties")) {
 
             //вместо исключения может просто выдать null, поэтому кинем исключение сами
             if (inputStream == null)
