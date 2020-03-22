@@ -33,6 +33,8 @@ class SearchJSONParser {
                 int badCustomers = jsonObject.getInt("badCustomers");
 
                 criteriaList.add(new BadCustomersSearchCriterion(badCustomers));
+            } else {
+                throw new RuntimeException("Неожиданный элемент");
             }
         }
 
